@@ -8,30 +8,10 @@
 - Реализация архектектуры  проекта с разделением логики на модели, хранилище, кастомные ошибки и сервис
 
 ## Структура проекта
-.
-├── DB_APPS/
-├── ├─ cmd/
-├── │  └─ service/service.go       # Точка входа в приложение
-├── ├─ pkg/
-├── │  ├─ model/
-├── │  │  ├─ label.go             # Структура для таблицы labels
-├── │  │  ├─ task.go              # Структура для таблицы tasks
-├── │  │  └─ user.go              # Структура для таблицы users
-├── │  └─ myerrors/
-├── │     └─ myerrors.go          # Кастомные ошибки
-├── ├─ storage/
-├── │  ├─ interface.go            # Интерфейс работы с БД
-├── │  └─ postgresql/
-├── │     ├─ postgresql.go        # Подключение и отключение БД
-├── │     ├─ label.go             # Методы для таблицы labels
-├── │     ├─ task.go              # Методы для таблицы tasks
-├── │     └─ user.go              # Методы для таблицы users
-├── ├─ go.mod
-├── ├─ go.sum
-└── └─ schema.sql                 # Скрипт создания БД и ограничений
+![](./docs/images/structure.png)
 
 ## Схема БД
-![](.\docs\images\Schema.png)
+![](./docs/images/Schema.png)
 
 ## Связи
 - Users -> Tasks: Один ко многим
