@@ -29,8 +29,8 @@ func main() {
 		log.Fatalf("Ошибка подключения к БД: %v", err)
 	}
 	defer db.Close()
-	fillUsers()
-	fillLabels()
+	fillUsers()  // Заполнение таблицы Users
+	fillLabels() // Заполнение таблицы Labels
 	workWithTasks()
 
 }
@@ -95,7 +95,7 @@ func workWithTasks() {
 	id, err = db.NewTask(t)
 	if err != nil {
 		if e, ok := err.(myerrors.TaskPartialErr); ok {
-			fmt.Println(e)
+			fmt.Printf("Ошибка создания задачи. %v\n", id, e)
 		} else {
 			log.Fatal(err)
 		}
@@ -112,7 +112,7 @@ func workWithTasks() {
 	id, err = db.NewTask(t)
 	if err != nil {
 		if e, ok := err.(myerrors.TaskPartialErr); ok {
-			fmt.Println(e)
+			fmt.Printf("Создана задача с ID:%d. %v\n", id, e)
 		} else {
 			log.Fatal(err)
 		}
@@ -131,7 +131,7 @@ func workWithTasks() {
 	id, err = db.NewTask(t)
 	if err != nil {
 		if e, ok := err.(myerrors.TaskPartialErr); ok {
-			fmt.Println(e)
+			fmt.Printf("Создана задача с ID:%d. %v\n", id, e)
 		} else {
 			log.Fatal(err)
 		}
@@ -139,7 +139,7 @@ func workWithTasks() {
 		fmt.Printf("Создана задача с ID %d\n", id)
 	}
 
-	// Создание задачи с несколькими метками (часть неправильные)
+	// Создание задачи с несколькими метками
 	t = model.Task{
 		Title:    "Добавить новый курс",
 		Content:  "Добавить возможность пользователю приобрести новый курс",
@@ -148,7 +148,7 @@ func workWithTasks() {
 	id, err = db.NewTask(t)
 	if err != nil {
 		if e, ok := err.(myerrors.TaskPartialErr); ok {
-			fmt.Println(e)
+			fmt.Printf("Создана задача с ID:%d. %v\n", id, e)
 		} else {
 			log.Fatal(err)
 		}
@@ -191,10 +191,11 @@ func workWithTasks() {
 	fmt.Println("\nОбновление задачи ID 1...")
 	updateTask := model.Task{
 		ID:         1,
-		AuthorID:   1, // автор менять нельзя
+		AuthorID:   1,
 		AssignedID: 3,
 		Title:      "Ошибка при авторизации",
 		Content:    "Проверить обработчик кнопки и запрос",
+		LabelsID:   []int{2, 3},
 	}
 	if err := db.UpdateTaskByID(updateTask); err != nil {
 		fmt.Println("Ошибка при обновлении задачи:", err)

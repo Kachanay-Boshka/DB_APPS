@@ -15,5 +15,5 @@ func (e TaskPartialErr) Error() string {
 	for i, err := range e.Errs {
 		msgs[i] = err.Error()
 	}
-	return fmt.Sprintf("Задача c ID:%d создана, но есть ошибки:\n\t- Ошибка:%s", e.TaskID, strings.Join(msgs, "\n\t- Ошибка:"))
+	return fmt.Sprintf("\n\t- Ошибка: %s", strings.Join(msgs, "\n\t- Ошибка: "))
 }
