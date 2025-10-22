@@ -1,0 +1,47 @@
+DROP TABLE IF EXISTS tasks_labels,tasks,labels, users;
+
+CREATE TABLE users (
+id SERIAL NOT NULL UNIQUE,
+name TEXT NOT NULL,
+PRIMARY KEY(id)
+);
+
+CREATE TABLE tasks(
+id SERIAL NOT NULL UNIQUE,
+opened BIGINT DEFAULT EXTRACT(EPOCH FROM NOW())::BIGINT,
+closed BIGINT DEFAULT 0,
+author_id INT NOT NULL DEFAULT 0,
+assigned_id INT NOT NULL DEFAULT 0,
+title TEXT NOT NULL DEFAULT '',
+content TEXT NOT NULL DEFAULT '',
+
+PRIMARY KEY(id),
+FOREIGN KEY(author_id)
+	REFERENCES users(id)
+	ON DELETE SET DEFAULT,
+FOREIGN KEY(assigned_id)
+	REFERENCES users(id)
+	ON DELETE SET DEFAULT
+);
+
+CREATE TABLE labels(
+id SERIAL NOT NULL UNIQUE,
+name TEXT NOT NULL,
+
+PRIMARY KEY(id)
+);
+
+CREATE TABLE tasks_labels(
+task_id INT NOT NULL,
+label_id INT NOT NULL,
+UNIQUE (task_id, label_id),
+
+FOREIGN KEY(task_id)
+	REFERENCES tasks(id),
+
+FOREIGN KEY(label_id)
+	REFERENCES labels(id)
+);
+
+INSERT INTO users(id, name)
+VALUES (0, 'default');
